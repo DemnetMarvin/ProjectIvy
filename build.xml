@@ -170,4 +170,14 @@ public class Hello {
 	<target name="clean-cache" depends="install-ivy" description="--&gt; clean the ivy cache">
 		<ivy:cleancache/>
 	</target>
+
+	
+    <!-- ================================= 
+          target: clean-all    
+         ================================= -->
+
+	<target name="clean-all" depends="clean, clean-ivy, clean-cache">
+		<echo message="Cleaning project !"/>
+	</target>
+
 </project>
