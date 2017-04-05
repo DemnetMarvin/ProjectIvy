@@ -16,7 +16,7 @@
    specific language governing permissions and limitations
    under the License.    
 -->
-<project name="go-ivy" default="go" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="go-ivy" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- 
         this build file is a self contained project: it doesn't require anything else 
         that ant 1.6.2 or greater and java 1.4 or greater properly installed.
@@ -74,11 +74,11 @@
           target: go
                     Go ivy, go!
          ================================= -->
-    <target name="go" depends="install-ivy, generate-src" description="--&gt; resolve dependencies, compile and run the project">
-		<echo message="using ivy to resolve commons-lang 2.1..."/>
+    <target name="go" depends="install-ivy, generate-src, resolve" description="--&gt; resolve dependencies, compile and run the project">
+		<echo message="using ivy to resolve -lang 2.1..."/>
         <!-- here comes the magic line: asks ivy to resolve a dependency on 
              commons-lang 2.1 and to build an ant path with it from its cache  -->
-        <ivy:cachepath organisation="commons-lang" module="commons-lang" revision="2.1" pathid="lib.path.id" inline="true"/>
+        <!--<ivy:cachepath organisation="commons-lang" module="commons-lang" revision="2.1" pathid="lib.path.id" inline="true"/>-->
         
 		<echo message="compiling..."/>
         <mkdir dir="${build.dir}"/>
@@ -88,13 +88,40 @@
 We are now ready to execute our simple program with its dependency on commons-lang.
 Let's go!
 		</echo>
-        <java classname="example.Hello">
+     <!--   <java classname="example.Hello">
             <classpath>
                 <path refid="lib.path.id"/>
                 <path location="${build.dir}"/>
             </classpath>
-        </java>
+        </java> -->
     </target>
+
+
+
+	<!-- ================================= 
+          target: run
+         ================================= -->
+
+	<target name="run" depends="go" >
+		<echo message="Running..."/>
+		<java classname="example.Hello">
+			<classpath>
+				<path refid="lib.path.id"/>
+				<path location="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+
+	<!-- ================================= 
+          target: resolve
+         ================================= -->
+	<target name="resolve">
+		<ivy:resolve/>
+		<ivy:cachepath pathid="lib.path.id"/>
+	</target>
+
+
 
 	<!-- ================================= 
           target: generate-src
