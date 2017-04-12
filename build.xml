@@ -16,7 +16,7 @@
    specific language governing permissions and limitations
    under the License.    
 -->
-<project name="go-ivy" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="go-ivy" default="go" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- 
         this build file is a self contained project: it doesn't require anything else 
         that ant 1.6.2 or greater and java 1.4 or greater properly installed.
@@ -74,7 +74,7 @@
           target: go
                     Go ivy, go!
          ================================= -->
-    <target name="go" depends="install-ivy, generate-src, resolve" description="--&gt; resolve dependencies, compile and run the project">
+    <target name="go" depends="install-ivy, resolve" description="--&gt; resolve dependencies, compile and run the project">
 		<echo message="using ivy to resolve -lang 2.1..."/>
         <!-- here comes the magic line: asks ivy to resolve a dependency on 
              commons-lang 2.1 and to build an ant path with it from its cache  -->
@@ -146,6 +146,16 @@ public class Hello {
 }
         </echo>
     </target>
+
+
+    <!-- ================================= 
+          target: report             
+         ================================= -->
+
+	<target name="report" depends="go">
+		<ivy:report todir="report" />
+	</target>
+
 	
     <!-- ================================= 
           target: clean              
